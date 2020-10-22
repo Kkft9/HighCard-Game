@@ -68,17 +68,20 @@ def checkCards(playerOne, playerTwo) :
     return False 
 
 def playRound(playerOne, playerTwo, drawDeck) :
-    playerOneDeck = []
-    playerTwoDeck = []
+    cardOne = playerOne.removeCard()
+    print(cardOne)
+    print('Hello 1')
+    cardTwo = playerTwo.removeCard()
+    print('Hello 2')
 
-    playerOneDeck.append(playerOne.removeCard())
-    
-    playerOneDeck.append(playerOne.removeCard())
-    
-    if playerOneDeck[-1].value > playerTwoDeck[-1].value :
+    drawDeck.append(cardOne)
+    drawDeck.append(cardTwo)
+    print("Hello 3")
+
+    if cardOne > cardTwo :
         playerOne.addCard(drawDeck)
         drawDeck = []
-    elif playerTwoDeck[-1].value > playerOneDeck[-1].value:
+    elif cardTwo > cardOne:
        playerTwo.addCard(drawDeck)
        drawDeck = [] 
 
