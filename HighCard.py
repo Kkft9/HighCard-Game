@@ -28,7 +28,8 @@ class Deck() :
         for suit in suits :
             for rank in ranks :
                 self.deck.append(Card(suit, rank))
-
+        # print(self.deck)
+        
     def shuffleDeck(self) :
         shuffle(self.deck)
 
@@ -50,16 +51,14 @@ class Player :
         return topCard
 
     def addCard(self, wonCards) :
-        if type(wonCards) == type([]) :
-            self.cards.extend(wonCards)
-        else :
-            self.cards.append(wonCards)
+        self.cards.extend(wonCards)
+        
 
 
 def distributeCards(deck, playerOne, playerTwo) :
     for i in range(26) :
-        playerOne.addCard(deck.dealCard)
-        playerTwo.addCard(deck.dealCard)
+        playerOne.addCard([deck.dealCard()])
+        playerTwo.addCard([deck.dealCard()])
 
 
 def checkCards(playerOne, playerTwo) :
@@ -68,22 +67,27 @@ def checkCards(playerOne, playerTwo) :
     return False 
 
 def playRound(playerOne, playerTwo, drawDeck) :
+    
     cardOne = playerOne.removeCard()
-    print(cardOne)
-    print('Hello 1')
     cardTwo = playerTwo.removeCard()
-    print('Hello 2')
 
     drawDeck.append(cardOne)
     drawDeck.append(cardTwo)
-    print("Hello 3")
 
-    if cardOne > cardTwo :
+    print(f"\n{playerOne.name} draws {cardOne}!")
+    print(f"{playerTwo.name} draws {cardTwo}!")
+
+    if cardOne.value > cardTwo.value :
         playerOne.addCard(drawDeck)
-        drawDeck = []
-    elif cardTwo > cardOne:
-       playerTwo.addCard(drawDeck)
-       drawDeck = [] 
+        print(f"\n{playerOne.name} wins the round!")
+        return False
+    elif cardTwo.value > cardOne.value:
+        playerTwo.addCard(drawDeck)
+        print(f"\n{playerTwo.name} wins the round!")
+        return False
+    else :
+        print(f"It's a draw! {len(drawDeck)} cards in the draw deck.")
+        return True
 
 
 
@@ -105,22 +109,28 @@ def main() :
 
     drawDeck = []
 
-    while(checkCards(playerOne, playerTwo) == True) :
+    roundNo = 0
+    isDraw = False
+
+    while(checkCards(playerOne, playerTwo)) :
+        print('\n')
         print(playerOne)
         print(playerTwo)
-        playRound(playerOne, playerTwo, drawDeck)
+
+        roundNo += 1
+        print(f"\nRound {roundNo}")
+
+        x = input('Press enter to start round: ')
+
+        isDraw = playRound(playerOne, playerTwo, drawDeck)
+        if not isDraw :
+            drawDeck = []
 
     if(len(playerOne.cards) == 0) :
         print(f'\n{playerTwo.name} Won!!!')
     else :
-        print(f'\n{playerTwo.name} Won!!!')
+        print(f'\n{playerOne.name} Won!!!')
 
 
 if __name__ == '__main__':
     main()
-
-
-
-
-
-
